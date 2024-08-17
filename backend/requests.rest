@@ -1,0 +1,17 @@
+###
+POST http://localhost:5000/user/register
+Content-Type: application/json
+
+{
+    "username":"Sadik Mahamud Shakshor",
+    "password":"as I am 2024"
+}
+
+###
+POST http://localhost:5000/user/login
+Content-Type: application/json
+
+{
+    "username":"Sadik Mahamud Shakshor",
+    "password":"as I am 2024"
+}
