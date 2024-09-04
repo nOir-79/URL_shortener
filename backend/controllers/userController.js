@@ -4,18 +4,20 @@ const jwt = require('jsonwebtoken')
 exports.register = async(req,res)=>{
     try{
         const {username,password,email} = req.body
+        console.log("request body:",req.body)
         if(!username && !password && !email){
             console.log('Information not provided')
-            return res.status(400).send('Information not provided')
+            return res.status(401).send('Information not provided')
         }
 
-        const user = await User.save({
+        const user =new User({
             username:username,
             password:password,
             email:email
         })
+        const savedUser = await user.save()
 
-        if(!user){
+        if(!savedUser){
             console.log('User not registered')
             return res.status(401).send('User not saved in database')
         }
