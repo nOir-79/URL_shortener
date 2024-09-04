@@ -1,5 +1,6 @@
 const Link = require('../models/link')
 const User = require('../models/user')
+const QRCode = require('qrcode')
 const { v4: uuidv4 } = require('uuid')
 const moment = require('moment-timezone')
 
@@ -53,5 +54,28 @@ exports.getOriginalLink = async(req,res)=>{
     }catch(error){
         console.error(error.message)
         res.status(500).send('Internal Server Error')
+    }
+}
+
+exports.getQRcode = async(req,res)=>{
+    try{
+        const originalURL = req.query.originalLink
+        console.log(req.params)
+        if(!originalURL){
+            console.log('No url provided')
+            return res.status(401).send('No URL provided')
+        }
+
+        const qrCode = await QRCode.toDataURL(originalURL)
+
+        if(!qrCode){
+            console.log('Error generating QRcode')
+            return res.status(402).send('Error generating QRcode')
+        }
+
+        return res.status(200).send(qrCode)
+    }catch(error){
+        console.error(error.message)
+        return res.status(500).send('Internal Server Error')
     }
 }
